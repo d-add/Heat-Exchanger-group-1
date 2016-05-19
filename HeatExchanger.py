@@ -39,7 +39,7 @@ class HeatExchanger():
         
     def convertUnits(value):
         # convert AES to SI units
-# Dan        
+# Dan the man     
     def solveArea():
         # Calculates area from input
         

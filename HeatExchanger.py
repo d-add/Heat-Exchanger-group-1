@@ -16,11 +16,11 @@ class HeatExchanger():
     cold=""     # options given below in input
     hot=""      # options given below in input
     given=""    # Tco or Tho
-    Cp=0        # Heat capacity
 
 # Marcus    
     def runAll():
     # Source functions, runs all the other functions
+    
     
     ### Pseduocode shell
 # Gabriel
@@ -40,14 +40,58 @@ class HeatExchanger():
     def convertUnits(value):
         # convert AES to SI units
 # Dan the man     
-    def solveArea():
-        # Calculates area from input
-        
+    
     def solveT():
         # calculates Tco or Tho (whichever one was NOT given in getInput() )
         
-    def solveCost():
-        # cost = $1000 * area (m^2)
+        #import numpy
+        import numpy as np
+        
+        #To do!! define mh, mc, Cph, Cpc
+        
+        
+        
+        #Solve for Tco or Tho
+        if getInput() == "Tho":
+            Tco = mh*Cph*(Thi-Tho)/(mc*Cpc) + Tci
+            return Tco
+        else:
+            Tho = -mc*Cpc(Tco-Tci)/(mh*Cph) + Thi
+            return Tho
+        
+        #Solve for Change in Temp 1 and 2
+        dT1 = Thi - Tco
+        dT2 = Tho - Tci
+        
+        
+        #Solve for Heat Transfer Rate 'q'
+        q = mh*Cph*(Tco-Tci)
+        
+        #Solve for the Surface Area
+        def solveArea():
+        
+            #Correction Factor 'F' as a function of 'R' and 'P'
+            R = (Thi-Tho)/(Tco-Tci)
+            P = (Tco-Tci)/(Thi-Tci)
+        
+            F = (np.sqrt(R**2 +1)/(R-1)) * \
+                np.log((1-P)/(1-P*R))/ \
+                np.log((2-P*(R+1-np.sqrt(R**2 +1)))/(2-P*(R+1+np.sqrt(R**2 +1))))
+        
+            #Log Mean Temperature Difference
+            T_logmean = (dT1 - dT2)/np.log(dT2/dT1)
+        
+            #Caluclate and Return Area
+            area = q/(F*U*T_logmean) #m^2
+            return (area)
+            
+        #Solve for the Cost
+        def solveCost():
+            # cost = $1000 * area (m^2)
+            cost = 1000*area  # $ in USD
+            return cost
+        
+        
 # Marcus        
     def output(area, T, cost):
         # Displays solutions all in SI units

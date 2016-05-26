@@ -41,6 +41,40 @@ class HeatExchanger():
         # convert AES to SI units
 # Dan the man     
     
+    #creat a class for table values
+    
+    class Fluid:
+        compound_name = ''
+        Mol_Wt = []
+        MP = []
+        BP = []
+        Cp = []
+        
+        def findMP(self, MP):
+            self.MP.append(MP)
+        
+    com1 = Fluid()
+    com2 = Fluid()
+    com3 = Fluid()
+    com4 = Fluid
+    
+    com1.compound_name = 'Water'
+    com2.compound_name = 'R134a'
+    com3.compound_name = 'Ethanol'
+    com4.compound_name = '2,2,4-trimethlypentane'
+    '''
+    com1.findMP(273.15)
+    com2.findMP(172.00)
+    com3.findMP(159.05)
+    com4.findMP(165.777)
+    '''
+    
+    
+    
+        
+    
+    
+    
     def solveT():
         # calculates Tco or Tho (whichever one was NOT given in getInput() )
         
@@ -48,6 +82,12 @@ class HeatExchanger():
         import numpy as np
         
         #To do!! define mh, mc, Cph, Cpc
+        
+        #try importing data
+            #from xlwings import Workbook, Range
+            #from pandas import DataFrame
+        
+        
         
         
         
@@ -59,37 +99,37 @@ class HeatExchanger():
             Tho = -mc*Cpc(Tco-Tci)/(mh*Cph) + Thi
             return Tho
         
-        #Solve for Change in Temp 1 and 2
-        dT1 = Thi - Tco
-        dT2 = Tho - Tci
+    #Solve for Change in Temp 1 and 2
+    dT1 = Thi - Tco
+    dT2 = Tho - Tci
         
         
-        #Solve for Heat Transfer Rate 'q'
-        q = mh*Cph*(Tco-Tci)
+    #Solve for Heat Transfer Rate 'q'
+    q = mh*Cph*(Tco-Tci)
         
-        #Solve for the Surface Area
-        def solveArea():
+    #Solve for the Surface Area
+    def solveArea():
         
-            #Correction Factor 'F' as a function of 'R' and 'P'
-            R = (Thi-Tho)/(Tco-Tci)
-            P = (Tco-Tci)/(Thi-Tci)
+        #Correction Factor 'F' as a function of 'R' and 'P'
+        R = (Thi-Tho)/(Tco-Tci)
+        P = (Tco-Tci)/(Thi-Tci)
         
-            F = (np.sqrt(R**2 +1)/(R-1)) * \
-                np.log((1-P)/(1-P*R))/ \
-                np.log((2-P*(R+1-np.sqrt(R**2 +1)))/(2-P*(R+1+np.sqrt(R**2 +1))))
+        F = (np.sqrt(R**2 +1)/(R-1)) * \
+            np.log((1-P)/(1-P*R))/ \
+            np.log((2-P*(R+1-np.sqrt(R**2 +1)))/(2-P*(R+1+np.sqrt(R**2 +1))))
         
-            #Log Mean Temperature Difference
-            T_logmean = (dT1 - dT2)/np.log(dT2/dT1)
+        #Log Mean Temperature Difference
+        T_logmean = (dT1 - dT2)/np.log(dT2/dT1)
         
-            #Caluclate and Return Area
-            area = q/(F*U*T_logmean) #m^2
-            return (area)
+        #Caluclate and Return Area
+        area = q/(F*U*T_logmean) #m^2
+        return (area)
             
-        #Solve for the Cost
-        def solveCost():
-            # cost = $1000 * area (m^2)
-            cost = 1000*area  # $ in USD
-            return cost
+    #Solve for the Cost
+    def solveCost():
+        # cost = $1000 * area (m^2)
+        cost = 1000*area  # $ in USD
+        return cost
         
         
 # Marcus        

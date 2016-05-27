@@ -155,7 +155,7 @@ else:
     #0 = 2*mc*(C[j].A + C[j].B*Th_avg + C[j].C*Th_avg**2 + C[j].D*Th_avg**3 + C[j].E*Th_avg**4)*(Th_avg - Tci) - q_h
     Th_avg = sp.Symbol('Th_avg')
     z = sp.solve(2*mh*(C[j].A + C[j].B*Th_avg + C[j].C*Th_avg**2 + C[j].D*Th_avg**3 + C[j].E*Th_avg**4)*(Thi-Th_avg) - q_c, Th_avg)
-    Tc_avg = z[0]
+    Th_avg = z[0]
 
 
 
@@ -168,7 +168,6 @@ if getInput() == "Tho":
         return heat_capacity_c
     
 else:
-    Th_avg = (Thi+ Tho)/2
     def Cph(j,Th_avg): #j = compound number of hot fluid, and T is change in temperature in Kelvin
         heat_capacity_h = C[j].A + C[j].B*Th_avg + C[j].C*Th_avg**2 + C[j].D*Th_avg**3 + C[j].E*Th_avg**4
         return heat_capacity_h
@@ -215,6 +214,7 @@ def solveCost(area):
     # cost = $1000 * area (m^2)
     cost = 1000*area  # $ in USD
     return cost
+
 
     
         

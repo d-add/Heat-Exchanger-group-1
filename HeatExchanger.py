@@ -193,18 +193,22 @@ else:
         
 #Solve for the Surface Area
 def solveArea():
+    import sympy as sp
     #Correction Factor 'F' as a function of 'R' and 'P'
     R = (Thi-Tho)/(Tco-Tci)
     P = (Tco-Tci)/(Thi-Tci)
     
-    F = (((R**2 +1.)**(0.5))/(R-1)) * ((np.log((1.-P)/(1.-P*R)))/ np.log((2.-P*(R+1.-((R**2 +1.)**(0.5))))/(2.-P*(R+1+((R**2 +1.)**(0.5))))))
-    print(F)
+    F_part1 = (((R**2 +1.)**(0.5))/(R-1))
+    F_part2 = ((1.-P)/(1.-P*R))
+    F_part3 =  ((2.-P*(R+1.-((R**2 +1.)**(0.5))))/(2.-P*(R+1+((R**2 +1.)**(0.5)))))
+    F = F_part1 * sp.log(F_part2/F_part3)
 
     #Log Mean Temperature Difference
     dT1 = Thi - Tco
     dT2 = Tho - Tci
-    T_logmean = (dT1 - dT2)/np.log(dT2/dT1)
-        
+    T_logmean = (dT1 - dT2)/sp.log(dT2/dT1)
+
+    
     #Caluclate and Return Area
     area = q_h/(F*U*T_logmean) #m^2
     return (area)

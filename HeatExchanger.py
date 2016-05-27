@@ -122,7 +122,10 @@ for i in C:
     i += 1
     
     
-    
+#Calculate Heat Capacity
+def Cp(i,T): #i = compound number, and T is change in temperature in Kelvin
+    heat_capacity = C[i].A + C[i].B*T + C[i].C*T**2 + C[i].D*T**3 + C[i].E*T**4
+    return heat_capacity
     
     
     

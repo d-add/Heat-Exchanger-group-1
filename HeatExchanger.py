@@ -206,7 +206,7 @@ def solveArea():
     #Log Mean Temperature Difference
     dT1 = Thi - Tco
     dT2 = Tho - Tci
-    T_logmean = (dT1 - dT2)/sp.log(dT2/dT1)
+    T_logmean = (dT2 - dT1)/sp.log(dT2/dT1)
 
     
     #Caluclate and Return Area

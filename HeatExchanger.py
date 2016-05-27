@@ -214,9 +214,10 @@ def solveArea():
     return (area)
             
 #Solve for the Cost
-def solveCost(area):
+def solveCost():
     # cost = $1000 * area (m^2)
-    cost = 1000*area  # $ in USD
+    cost = 1000*solveArea()  # $ in USD
+    cost = float("{0:.2f}".format(cost))
     return cost
 
 

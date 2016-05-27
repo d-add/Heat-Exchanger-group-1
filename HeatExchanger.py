@@ -41,10 +41,10 @@ class HeatExchanger():
         # convert AES to SI units
 # Dan the man     
     
-    #creat a class for table values
-    
 import numpy as np
 import pandas as pd
+import scipy.optimize as opt
+import sympy as sp
 
 #Importing the File
 
@@ -125,73 +125,97 @@ for i in C:
 #Calculate Heat Capacity determined by Temperature out (hot or cold) that was selceted at getInput()
 if getInput() == "Tho":
     Th_avg = (Thi+Tho)/2
-    def Cph(i,Th_avg): #i = compound number, and T is change in temperature in Kelvin
-        heat_capacity_h = C[i].A + C[i].B*Th_avg + C[i].C*Th_avg**2 + C[i].D*Th_avg**3 + C[i].E*Th_avg**4
+    def Cph(j,Th_avg): #j = compound number o hot fluid, and T is change in temperature in Kelvin
+        heat_capacity_h = C[j].A + C[j].B*Th_avg + C[j].C*Th_avg**2 + C[j].D*Th_avg**3 + C[j].E*Th_avg**4
         return heat_capacity_h
 else:
     Tc_avg = (Tci + Tco)/2
-    def Cpc(i,Tc_avg): #i = compound number, and T is change in temperature in Kelvin
-        heat_capacity_c = C[i].A + C[i].B*Tc_avg + C[i].C*Tc_avg**2 + C[i].D*Tc_avg**3 + C[i].E*Tc_avg**4
+    def Cpc(k,Tc_avg): #k = compound number of cold fluid, and T is change in temperature in Kelvin
+        heat_capacity_c = C[k].A + C[k].B*Tc_avg + C[k].C*Tc_avg**2 + C[k].D*Tc_avg**3 + C[k].E*Tc_avg**4
         return heat_capacity_c
     
-    
-    
-def solveT():
-    # calculates Tco or Tho (whichever one was NOT given in getInput() )
-        
-    #Solve for Tco or Tho
-    if getInput() == "Tho":
-        Tco = mh*Cph(i,Th_avg)*(Thi-Tho)/(mc*Cpc) + Tci
-        return Tco
-    else:
-        Tho = -mc*Cpc(i,Tc_avg)*(Tco-Tci)/(mh*Cph) + Thi
-        return Tho
-        
-    
+
+
+if getInput() == "Tho":
+    #Solve for Heat Transfer Rate 'q'
+    q_h = mh*Cph(j,Th_avg)*(Thi-Tho)  #q_c = mc*Cpc(k,Tc_avg)*(Tco-Tci)    note that q_h = q_c
+   
+
+    #solve polynomial equation with one variable (variable = Tc_avg) by setting equation equal to zero
+    #0 = 2*mc*(C[k].A + C[k].B*Tc_avg + C[k].C*Tc_avg**2 + C[k].D*Tc_avg**3 + C[k].E*Tc_avg**4)*(Tc_avg - Tci) - q_h
+    Tc_avg = sp.Symbol('Tc_avg')
+    y = sp.solve(2*mc*(C[k].A + C[k].B*Tc_avg + C[k].C*Tc_avg**2 + C[k].D*Tc_avg**3 + C[k].E*Tc_avg**4)*(Tc_avg - Tci) - q_h, Tc_avg)
+    Tc_avg = y[0]
+
+else:
+    #Solve for Heat Transfer Rate 'q'
+    q_c = mc*Cpc(k,Tc_avg)*(Tco-Tci) #q_h = mh*Cph(j,Th_avg)*(Thi-Tho    note that q_h = q_c
+
+    #solve polynomial equation with one variable (variable = Th_avg) by setting equation equal to zero
+    #0 = 2*mc*(C[j].A + C[j].B*Th_avg + C[j].C*Th_avg**2 + C[j].D*Th_avg**3 + C[j].E*Th_avg**4)*(Th_avg - Tci) - q_h
+    Th_avg = sp.Symbol('Th_avg')
+    z = sp.solve(2*mh*(C[j].A + C[j].B*Th_avg + C[j].C*Th_avg**2 + C[j].D*Th_avg**3 + C[j].E*Th_avg**4)*(Thi-Th_avg) - q_c, Th_avg)
+    Tc_avg = z[0]
+
+
+
+
+
 #Solve for Cph or Cpc (heat capacity). Whichever hasn't already been solved.
 if getInput() == "Tho":
-    Tc_avg = (Tci + Tco)/2
-    def Cpc(i,Tc_avg): #i = compound number, and T is change in temperature in Kelvin
-        heat_capacity_c = C[i].A + C[i].B*Tc_avg + C[i].C*Tc_avg**2 + C[i].D*Tc_avg**3 + C[i].E*Tc_avg**4
+    def Cpc(k,Tc_avg): #k = compound number of cold fluid, and T is change in temperature in Kelvin
+        heat_capacity_c = C[k].A + C[k].B*Tc_avg + C[k].C*Tc_avg**2 + C[k].D*Tc_avg**3 + C[k].E*Tc_avg**4
         return heat_capacity_c
     
 else:
-    Th_avg = (Thi+Tho)/2
-    def Cph(i,Th_avg): #i = compound number, and T is change in temperature in Kelvin
-        heat_capacity_h = C[i].A + C[i].B*Th_avg + C[i].C*Th_avg**2 + C[i].D*Th_avg**3 + C[i].E*Th_avg**4
+    Th_avg = (Thi+ Tho)/2
+    def Cph(j,Th_avg): #j = compound number of hot fluid, and T is change in temperature in Kelvin
+        heat_capacity_h = C[j].A + C[j].B*Th_avg + C[j].C*Th_avg**2 + C[j].D*Th_avg**3 + C[j].E*Th_avg**4
         return heat_capacity_h
+    
+    
+        
+# calculate Tco or Tho (whichever one was NOT given in getInput() )
+        
+#Solve for Tco or Tho
+if getInput() == "Tho":
+    Tco = mh*Cph(j,Th_avg)*(Thi-Tho)/(mc*Cpc(k,Tc_avg)) + Tci
+    
+else:
+    Tho = -mc*Cpc(k,Tc_avg)*(Tco-Tci)/(mh*Cph(j,Th_avg)) + Thi
+    
+
 
     
-#Solve for Heat Transfer Rate 'q'
-q_h = mh*Cph(i,Thi)*(Thi-Tho)
-q_c = mc*Cpc(i,Tci)*(Tco-Tci) #this is mostly a redudent equation that can be used to calculate error.
-#note that q_h = q_c
+
+
+    
+
         
 #Solve for the Surface Area
 def solveArea():
-        
     #Correction Factor 'F' as a function of 'R' and 'P'
     R = (Thi-Tho)/(Tco-Tci)
     P = (Tco-Tci)/(Thi-Tci)
-        
-    F = (np.sqrt(R**2 +1)/(R-1)) * \
-        np.log((1-P)/(1-P*R))/ \
-        np.log((2-P*(R+1-np.sqrt(R**2 +1)))/(2-P*(R+1+np.sqrt(R**2 +1))))
-        
+    
+    F = (((R**2 +1.)**(0.5))/(R-1)) * ((np.log((1.-P)/(1.-P*R)))/ np.log((2.-P*(R+1.-((R**2 +1.)**(0.5))))/(2.-P*(R+1+((R**2 +1.)**(0.5))))))
+    print(F)
+
     #Log Mean Temperature Difference
     dT1 = Thi - Tco
     dT2 = Tho - Tci
     T_logmean = (dT1 - dT2)/np.log(dT2/dT1)
         
     #Caluclate and Return Area
-    area = q/(F*U*T_logmean) #m^2
+    area = q_h/(F*U*T_logmean) #m^2
     return (area)
             
 #Solve for the Cost
-def solveCost():
+def solveCost(area):
     # cost = $1000 * area (m^2)
     cost = 1000*area  # $ in USD
     return cost
+
     
         
 # Marcus        

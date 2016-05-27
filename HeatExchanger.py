@@ -148,10 +148,23 @@ def solveT():
         return Tho
         
     
-        
+#Solve for Cph or Cpc (heat capacity). Whichever hasn't already been solved.
+if getInput() == "Tho":
+    Tc_avg = (Tci + Tco)/2
+    def Cpc(i,Tc_avg): #i = compound number, and T is change in temperature in Kelvin
+        heat_capacity_c = C[i].A + C[i].B*Tc_avg + C[i].C*Tc_avg**2 + C[i].D*Tc_avg**3 + C[i].E*Tc_avg**4
+        return heat_capacity_c
+    
+else:
+    Th_avg = (Thi+Tho)/2
+    def Cph(i,Th_avg): #i = compound number, and T is change in temperature in Kelvin
+        heat_capacity_h = C[i].A + C[i].B*Th_avg + C[i].C*Th_avg**2 + C[i].D*Th_avg**3 + C[i].E*Th_avg**4
+        return heat_capacity_h
+
+    
 #Solve for Heat Transfer Rate 'q'
 q_h = mh*Cph(i,Thi)*(Thi-Tho)
-q_c = mc*Cpc(i,Tci)*(Tco-Tci)
+q_c = mc*Cpc(i,Tci)*(Tco-Tci) #this is mostly a redudent equation that can be used to calculate error.
 #note that q_h = q_c
         
 #Solve for the Surface Area

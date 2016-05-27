@@ -127,29 +127,28 @@ if getInput() == "Tho":
     Th_avg = (Thi+Tho)/2
     def Cph(j,Th_avg): #j = compound number o hot fluid, and T is change in temperature in Kelvin
         heat_capacity_h = C[j].A + C[j].B*Th_avg + C[j].C*Th_avg**2 + C[j].D*Th_avg**3 + C[j].E*Th_avg**4
-        return heat_capacity_h
+        return heat_capacity_h/1000
 else:
     Tc_avg = (Tci + Tco)/2
     def Cpc(k,Tc_avg): #k = compound number of cold fluid, and T is change in temperature in Kelvin
         heat_capacity_c = C[k].A + C[k].B*Tc_avg + C[k].C*Tc_avg**2 + C[k].D*Tc_avg**3 + C[k].E*Tc_avg**4
-        return heat_capacity_c
+        return heat_capacity_c/1000
     
-
 
 if getInput() == "Tho":
     #Solve for Heat Transfer Rate 'q'
-    q_h = mh*Cph(j,Th_avg)*(Thi-Tho)  #q_c = mc*Cpc(k,Tc_avg)*(Tco-Tci)    note that q_h = q_c
-   
+    q_h = 1000*mh*(1/C[j].Mol_Wt)*Cph(j,Th_avg)*(Thi-Tho)  #q_c = mc*Cpc(k,Tc_avg)*(Tco-Tci)    note that q_h = q_c
+    #I multiplied by a thousand to convert kilograms to grams. Make sure that Gabriel hasn't already solved this!!!!!!!!
 
     #solve polynomial equation with one variable (variable = Tc_avg) by setting equation equal to zero
     #0 = 2*mc*(C[k].A + C[k].B*Tc_avg + C[k].C*Tc_avg**2 + C[k].D*Tc_avg**3 + C[k].E*Tc_avg**4)*(Tc_avg - Tci) - q_h
     Tc_avg = sp.Symbol('Tc_avg')
-    y = sp.solve(2*mc*(C[k].A + C[k].B*Tc_avg + C[k].C*Tc_avg**2 + C[k].D*Tc_avg**3 + C[k].E*Tc_avg**4)*(Tc_avg - Tci) - q_h, Tc_avg)
+    y = sp.solve(2*mc*(C[k].A + C[k].B*Tc_avg + C[k].C*Tc_avg**2 + C[k].D*Tc_avg**3 + C[k].E*Tc_avg**4)*(Tc_avg-Tci) - q_h, Tc_avg)
     Tc_avg = y[0]
 
 else:
     #Solve for Heat Transfer Rate 'q'
-    q_c = mc*Cpc(k,Tc_avg)*(Tco-Tci) #q_h = mh*Cph(j,Th_avg)*(Thi-Tho    note that q_h = q_c
+    q_c = 1000*mc*(1/C[k].Mol_Wt)*Cpc(k,Tc_avg)*(Tco-Tci) #q_h = mh*Cph(j,Th_avg)*(Thi-Tho    note that q_h = q_c
 
     #solve polynomial equation with one variable (variable = Th_avg) by setting equation equal to zero
     #0 = 2*mc*(C[j].A + C[j].B*Th_avg + C[j].C*Th_avg**2 + C[j].D*Th_avg**3 + C[j].E*Th_avg**4)*(Th_avg - Tci) - q_h
@@ -165,12 +164,12 @@ else:
 if getInput() == "Tho":
     def Cpc(k,Tc_avg): #k = compound number of cold fluid, and T is change in temperature in Kelvin
         heat_capacity_c = C[k].A + C[k].B*Tc_avg + C[k].C*Tc_avg**2 + C[k].D*Tc_avg**3 + C[k].E*Tc_avg**4
-        return heat_capacity_c
+        return heat_capacity_c/1000
     
 else:
     def Cph(j,Th_avg): #j = compound number of hot fluid, and T is change in temperature in Kelvin
         heat_capacity_h = C[j].A + C[j].B*Th_avg + C[j].C*Th_avg**2 + C[j].D*Th_avg**3 + C[j].E*Th_avg**4
-        return heat_capacity_h
+        return heat_capacity_h/1000
     
     
         
@@ -219,6 +218,7 @@ def solveCost():
     cost = 1000*solveArea()  # $ in USD
     cost = float("{0:.2f}".format(cost))
     return cost
+
 
 
     

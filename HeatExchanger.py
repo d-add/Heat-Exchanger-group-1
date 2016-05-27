@@ -105,52 +105,21 @@ class Fluid:
         self.name.append(E)
         
     
-C = np.empty(4)
-C0 = Fluid()
-C1 = Fluid()
-C2 = Fluid()
-C3 = Fluid()
-
-
-C0.name = compound_name[0]
-C0.Mol_Wt = mol_wt[0]
-C0.MP = melt_pt[0]
-C0.BP = boil_pt[0]
-C0.A = cp_A[0]
-C0.B = cp_B[0]
-C0.C = cp_C[0]
-C0.D = cp_D[0]
-C0.E = cp_E[0]
+C = [0,1,2,3]
+i = 0
+for i in C:
+    C[i] = Fluid()
+    C[i].name = compound_name[i]
+    C[i].Mol_Wt = mol_wt[i]
+    C[i].MP = melt_pt[i]
+    C[i].BP = boil_pt[i]
+    C[i].A = cp_A[i]
+    C[i].B = cp_B[i]
+    C[i].C = cp_C[i]
+    C[i].D = cp_D[i]
+    C[i].E = cp_E[i]
     
-C1.name = compound_name[1]
-C1.Mol_Wt = mol_wt[1]
-C1.MP = melt_pt[1]
-C1.BP = boil_pt[1]
-C1.A = cp_A[1]
-C1.B = cp_B[1]
-C1.C = cp_C[1]
-C1.D = cp_D[1]
-C1.E = cp_E[1]
-    
-C2.name = compound_name[2]
-C2.Mol_Wt = mol_wt[2]
-C2.MP = melt_pt[2]
-C2.BP = boil_pt[2]
-C2.A = cp_A[2]
-C2.B = cp_B[2]
-C2.C = cp_C[2]
-C2.D = cp_D[2]
-C2.E = cp_E[2]
-    
-C3.name = compound_name[3]
-C3.Mol_Wt = mol_wt[3]
-C3.MP = melt_pt[3]
-C3.BP = boil_pt[3]
-C3.A = cp_A[3]
-C3.B = cp_B[3]
-C3.C = cp_C[3]
-C3.D = cp_D[3]
-C3.E = cp_E[3]
+    i += 1
     
     
     

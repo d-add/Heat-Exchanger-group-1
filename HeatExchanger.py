@@ -199,9 +199,9 @@ def solveArea():
     P = (Tco-Tci)/(Thi-Tci)
     
     F_part1 = (((R**2 +1.)**(0.5))/(R-1))
-    F_part2 = ((1.-P)/(1.-P*R))
-    F_part3 =  ((2.-P*(R+1.-((R**2 +1.)**(0.5))))/(2.-P*(R+1+((R**2 +1.)**(0.5)))))
-    F = F_part1 * sp.log(F_part2/F_part3)
+    F_part2 = sp.log((1.-P)/(1.-P*R))
+    F_part3 =  sp.log((2.-P*(R+1.-((R**2 +1.)**(0.5))))/(2.-P*(R+1+((R**2 +1.)**(0.5)))))
+    F = F_part1 * (F_part2/F_part3)
 
     #Log Mean Temperature Difference
     dT1 = Thi - Tco

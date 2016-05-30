@@ -65,7 +65,7 @@ k = 0 #cold fluid
 
 #Importing the File
 
-thermo_file = pd.read_csv('Thermophysical_Properties.csv')
+thermo_file = pd.read_csv('Thermophysical_Properties (updated).csv')
 
 
 

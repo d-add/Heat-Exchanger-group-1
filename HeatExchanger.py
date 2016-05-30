@@ -50,15 +50,15 @@ import sympy as sp
 #Note Below:
 #These variables below: I want them defined as such, U = self.U, so that I don't have to go through to change all the variables.
 '''
-U=100.         # Heat Transfer Coefficient
-Tci=278.       # T cold fluid, in
-Thi=360.       # T hot fluid, in
-mc=5.0        # flow rate cold fluid
-mh=0.5        # flow rate hot fluid
+U = self.U         # Heat Transfer Coefficient
+Tci = self.T_ci       # T cold fluid, in
+Thi = self.T_hi      # T hot fluid, in
+mc = self.m_c       # flow rate cold fluid
+mh = self.m_h        # flow rate hot fluid
 
 def getInput():
     return "Tho"
-T_out = 300.
+T_out = self.t_xo
 j = 0 #hot fluid
 k = 0 #cold fluid
 '''

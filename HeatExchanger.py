@@ -55,12 +55,10 @@ Tci = self.T_ci       # T cold fluid, in
 Thi = self.T_hi      # T hot fluid, in
 mc = self.m_c       # flow rate cold fluid
 mh = self.m_h        # flow rate hot fluid
-
-def getInput():
-    return "Tho"
+C = self.C
 T_out = self.t_xo
-j = 0 #hot fluid
-k = 0 #cold fluid
+j = self.hot #hot fluid
+k = self.cold #cold fluid
 '''
 
 #Importing the File

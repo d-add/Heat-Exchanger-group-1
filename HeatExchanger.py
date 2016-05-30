@@ -239,7 +239,7 @@ def solveArea(T): # T is the unspecified temperature in the beginning
     
     if getInput() == "Tho":
         Tho = T_out
-        Tco = solveT()
+        Tco = T
         
     else:
         Tho = T

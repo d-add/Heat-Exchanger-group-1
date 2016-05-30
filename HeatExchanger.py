@@ -144,8 +144,8 @@ def solveCp():
     if getInput() == "Tho":
         
         #Calculates Heat Capacity determined by Temperature-out of the hot fluid
-        global Tho
-        Th_avg = (Thi+Tho)/2
+        global T_out
+        Th_avg = (Thi+T_out)/2
         
         def Cph(j,Th_avg):  #j = compound number of hot fluid, and T is change in temperature in Kelvin
             heat_capacity_h = C[j].A + C[j].B*Th_avg + C[j].C*Th_avg**2 + C[j].D*Th_avg**3 + C[j].E*Th_avg**4
@@ -154,8 +154,8 @@ def solveCp():
     
     else:
         #Calculates Heat Capacity determined by Temperature-out of the cold fluid
-        global Tco
-        Tc_avg = (Tci + Tco)/2
+        global T_out
+        Tc_avg = (Tci + T_out)/2
         
         def Cpc(k,Tc_avg): #k = compound number of cold fluid, and T is change in temperature in Kelvin
             heat_capacity_c = C[k].A + C[k].B*Tc_avg + C[k].C*Tc_avg**2 + C[k].D*Tc_avg**3 + C[k].E*Tc_avg**4
